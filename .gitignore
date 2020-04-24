@@ -1,3 +1,6 @@
 /.idea/
 /data/
 /vendor/
+
+/public/vendor/
+/src/config/db.php
