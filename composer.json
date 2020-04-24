@@ -1,0 +1,21 @@
+{
+  "name": "rvasiliy/tasks",
+  "description": "Task list application",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "RVasiliy",
+      "email": "vasiliy-mobile@yandex.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
+}
