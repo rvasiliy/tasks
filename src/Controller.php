@@ -7,4 +7,10 @@ class Controller
     {
         return new View($view, $data);
     }
+
+    public function redirect(string $url)
+    {
+        header('Location: ' . $url);
+        exit();
+    }
 }

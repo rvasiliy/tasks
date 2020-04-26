@@ -1,6 +1,9 @@
 <?php
 
 
+use auth\User;
+use helper\SessionHelper;
+
 class Application
 {
     /**
@@ -13,8 +16,15 @@ class Application
      */
     public static $router;
 
+    /**
+     * @var User
+     */
+    public static $user;
+
     public function run(array $config = [])
     {
+        SessionHelper::start();
+
         self::$config = new Config($config);
         self::$router = new Router();
 

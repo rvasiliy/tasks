@@ -14,7 +14,7 @@
 <div class="main">
     <header class="navbar flex-row">
         <a href="/" class="navbar-brand">Home</a>
-        <a href="/login" class="btn btn-primary ml-auto">Sign in</a>
+        <a href="/auth" class="btn btn-primary ml-auto">Sign in</a>
         <span class="ml-2">User</span>
     </header>
 
