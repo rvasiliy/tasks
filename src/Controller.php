@@ -3,8 +3,8 @@
 
 class Controller
 {
-    public function render(string $view, array $data = [])
+    public function render(string $view, array $data = []): View
     {
-        return (new View())->render($view, $data);
+        return new View($view, $data);
     }
 }

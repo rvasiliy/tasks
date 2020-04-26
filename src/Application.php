@@ -18,20 +18,45 @@ class Application
         self::$config = new Config($config);
         self::$router = new Router();
 
+        $view = $this->createView();
+
+        if (is_null($view)) {
+            header('Location: /error/error404');
+            exit();
+        }
+
+        $content = $view->render();
+        $layout = self::$config->get('view_dir') . '/layout/' . $view->layout . '.php';
+
+        if (file_exists($layout)) {
+            require $layout;
+        } else {
+            echo $content;
+        }
+    }
+
+    private function createView(): ?View
+    {
         $controller = $this->createController();
         $action = $this->getAction();
 
-        $content = $controller->$action(self::$router->getParams());
+        if (is_null($controller) || !method_exists($controller, $action)) {
+            return null;
+        }
 
-        require self::$config->get('view_dir') . '/layout/main.php';
+        return $controller->$action(self::$router->getParams());
     }
 
-    private function createController(): Controller
+    private function createController(): ?Controller
     {
         $controllerName = self::$router->getController();
         $controllerClass = 'controller\\' . ucfirst($controllerName) . 'Controller';
 
-        return new $controllerClass();
+        if (class_exists($controllerClass)) {
+            return new $controllerClass();
+        }
+
+        return null;
     }
 
     private function getAction(): string

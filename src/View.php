@@ -3,15 +3,35 @@
 
 class View
 {
-    public function render(string $view, array $data = []): string
+    /**
+     * @var string Шаблон
+     */
+    public $layout = 'main';
+
+    /**
+     * @var string
+     * @example home/index
+     */
+    private $view = '';
+
+    private $data = [];
+
+
+    public function __construct(string $view, array $data)
     {
-        $viewPath = $this->getViewDirectory() . '/' . $view . '.php';
+        $this->view = $view;
+        $this->data = $data;
+    }
+
+    public function render(): string
+    {
+        $viewPath = $this->getViewDirectory() . '/' . $this->view . '.php';
 
         if (file_exists($viewPath)) {
             ob_start();
             ob_implicit_flush(false);
 
-            extract($data);
+            extract($this->data);
             require $viewPath;
 
             return ob_get_clean();

@@ -4,9 +4,12 @@
 namespace controller;
 
 
-class HomeController extends \Controller
+use Controller;
+use View;
+
+class HomeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return $this->render('home/index');
     }
