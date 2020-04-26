@@ -9,9 +9,7 @@ use helper\CsrfHelper;
             Authentication
         </div>
         <form class="card-body" action="/auth/login" method="post">
-            <input type="hidden"
-                   name="<?= CsrfHelper::TOKEN_KEY ?>"
-                   value="<?= CsrfHelper::createToken(); ?>">
+            <?php CsrfHelper::createFormField(); ?>
             <div class="form-group">
                 <label for="username">Username</label>
                 <input class="form-control" type="text" id="username" name="username">

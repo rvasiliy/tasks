@@ -14,6 +14,11 @@ class Router
     private $action;
 
     /**
+     * @var string
+     */
+    private $method;
+
+    /**
      * @var array
      */
     private $params;
@@ -26,6 +31,7 @@ class Router
     {
         $this->controller = '';
         $this->action = '';
+        $this->method = '';
         $this->params = [];
 
         $this->prepare();
@@ -40,6 +46,11 @@ class Router
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 
     public function getParams(): array
@@ -61,6 +72,7 @@ class Router
 
         $this->controller = $parts[0] ? $parts[0] : 'home';
         $this->action = $parts[1] ? $parts[1] : 'index';
+        $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->params = array_merge($_GET, $_POST);
     }
 }

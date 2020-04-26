@@ -14,8 +14,19 @@
 <div class="main">
     <header class="navbar flex-row">
         <a href="/" class="navbar-brand">Home</a>
-        <a href="/auth" class="btn btn-primary ml-auto">Sign in</a>
-        <span class="ml-2">User</span>
+        <div class="ml-auto">
+            <?php if (!Application::$user): ?>
+                <a href="/auth" class="btn btn-primary ">Sign in</a>
+            <?php else: ?>
+                <form action="/auth/logout" method="post">
+                    <?php helper\CsrfHelper::createFormField(); ?>
+                    <button class="btn btn-primary" type="submit">Sign out</button>
+                </form>
+            <?php endif ?>
+        </div>
+        <span class="ml-2">
+            <?php if (Application::$user) { echo htmlspecialchars(Application::$user->getName()); } ?>
+        </span>
     </header>
 
     <main class="container-fluid">

@@ -8,22 +8,27 @@ class CsrfHelper
 {
     const TOKEN_KEY = 'csrfToken';
 
-    public static function createToken():string
+    public static function createFormField()
     {
-        $token = self::generateTokenValue();
+        $token = SessionHelper::get(CsrfHelper::TOKEN_KEY);
 
-        SessionHelper::set(self::TOKEN_KEY, $token);
-
-        return $token;
+        echo '<input type="hidden" name="' . CsrfHelper::TOKEN_KEY . '" value="' . $token . '">';
     }
 
     public static function validateToken(string $token): bool
     {
-        return $token === SessionHelper::get(self::TOKEN_KEY);
+        $tokenFromSession = SessionHelper::get(self::TOKEN_KEY);
+
+        SessionHelper::delete(self::TOKEN_KEY);
+
+        return $token === $tokenFromSession;
     }
 
-    private static function generateTokenValue(): string
+    public static function generateToken(): void
     {
-        return bin2hex(openssl_random_pseudo_bytes(24));
+        if (!SessionHelper::get(self::TOKEN_KEY)) {
+            $token = bin2hex(openssl_random_pseudo_bytes(24));
+            SessionHelper::set(self::TOKEN_KEY, $token);
+        }
     }
 }
