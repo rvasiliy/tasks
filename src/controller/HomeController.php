@@ -4,13 +4,20 @@
 namespace controller;
 
 
+use Application;
 use Controller;
+use model\TaskTable;
 use View;
 
 class HomeController extends Controller
 {
     public function index(): View
     {
-        return $this->render('home/index');
+        $taskTable = new TaskTable();
+
+        return $this->render('home/index', [
+            'data' => $taskTable->getList(),
+            'isAdmin' => Application::$user && Application::$user->isAdmin()
+        ]);
     }
 }

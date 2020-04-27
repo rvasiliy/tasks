@@ -24,7 +24,7 @@
                 </form>
             <?php endif ?>
         </div>
-        <span class="ml-2">
+        <span class="ml-2 font-weight-bold">
             <?php if (Application::$user) {
                 echo htmlspecialchars(Application::$user->getName());
             } ?>
