@@ -67,7 +67,17 @@ class DataGrid extends Widget
         echo '<tr>';
 
         foreach ($this->columns as $key => $column) {
-            echo '<td>', htmlspecialchars($data[$key]), '</td>';
+            $value = $data[$key];
+
+            if (array_key_exists('value', $column)) {
+                if (is_callable($column['value'])) {
+                    $value = $column['value']($data);
+                } else {
+                    $value = $column['value'];
+                }
+            }
+
+            echo '<td>', htmlspecialchars($value), '</td>';
         }
 
         if (!empty($this->actions)) {

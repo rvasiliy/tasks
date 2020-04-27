@@ -6,6 +6,7 @@ namespace controller;
 
 use Application;
 use Controller;
+use helper\CsrfHelper;
 use helper\FlashHelper;
 use model\TaskForm;
 use model\TaskTable;
@@ -37,6 +38,8 @@ class TaskController extends Controller
 
     public function edit(array $data)
     {
+        $this->canAdminOnly();
+
         $taskId = intval($data['id']);
 
         $taskTable = new TaskTable();
@@ -69,6 +72,26 @@ class TaskController extends Controller
         ]);
     }
 
+    public function done(array $data)
+    {
+        $this->canAdminOnly();
+
+        if (
+            'post' === Application::$router->getMethod()
+            && CsrfHelper::validateToken($data['csrfToken'])
+        ) {
+            $taskId = intval($data['id']);
+            $taskTable = new TaskTable();
+
+            if ($taskTable->setDone($taskId)) {
+                FlashHelper::add('Task done', FlashHelper::WARNING_TYPE);
+                $this->redirect('/');
+            } else {
+                FlashHelper::add('Unknown error', FlashHelper::WARNING_TYPE);
+            }
+        }
+    }
+
     private function saveTask(TaskForm $model): bool
     {
         $taskTable = new TaskTable();
@@ -77,6 +100,16 @@ class TaskController extends Controller
             return $taskTable->updateTask($model);
         } else {
             return $taskTable->addTask($model);
+        }
+    }
+
+    private function canAdminOnly()
+    {
+        $user = Application::$user;
+
+        if (is_null($user) || !$user->isAdmin()) {
+            FlashHelper::add('Permission denied', FlashHelper::WARNING_TYPE);
+            $this->redirect('/');
         }
     }
 }

@@ -24,13 +24,25 @@ use widget\EditAction;
             'label' => 'Description'
         ],
         'status' => [
-            'label' => 'Status'
+            'label' => 'Status',
+            'value' => function($data) {
+                $changes = [$data['status']];
+
+                if ($data['create_at'] !== $data['update_at']) {
+                    array_push($changes, 'edited by admin');
+                }
+
+                return implode(', ', $changes);
+            }
         ],
     ],
     'actions' => [
         'edit' => [
             'class' => EditAction::class,
-            'url' => '/task/edit'
+            'url' => '/task/edit',
+            'hiddenCallback' => function() use ($isAdmin) {
+                return !$isAdmin;
+            }
         ],
         'done' => [
             'class' => DoneAction::class,

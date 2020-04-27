@@ -56,4 +56,11 @@ class TaskTable
 
         return boolval(DB::affectedRows());
     }
+
+    public function setDone(int $id): bool
+    {
+        Db::query("update task set status = %s where id = %d", 'done', $id);
+
+        return boolval(DB::affectedRows());
+    }
 }
