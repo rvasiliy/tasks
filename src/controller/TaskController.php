@@ -35,10 +35,48 @@ class TaskController extends Controller
         ]);
     }
 
+    public function edit(array $data)
+    {
+        $taskId = intval($data['id']);
+
+        $taskTable = new TaskTable();
+        $dbData = $taskTable->find($taskId);
+
+        $model = new TaskForm([
+            'id' => $dbData['id'],
+            'name' => $dbData['author'],
+            'email' => $dbData['author_email'],
+            'description' => $dbData['description'],
+        ]);
+
+        if ('post' === Application::$router->getMethod()) {
+            $model = new TaskForm($data);
+
+            if ($model->isValid()) {
+                if ($this->saveTask($model)) {
+                    FlashHelper::add('Task was saved', FlashHelper::INFO_TYPE);
+                } else {
+                    FlashHelper::add('Error in saving process', FlashHelper::ERROR_TYPE);
+                }
+
+            } else {
+                FlashHelper::add('Form data is invalid', FlashHelper::WARNING_TYPE);
+            }
+        }
+
+        return $this->render('task/edit', [
+            'model' => $model
+        ]);
+    }
+
     private function saveTask(TaskForm $model): bool
     {
         $taskTable = new TaskTable();
 
-        return $taskTable->addTask($model);
+        if ($model->id) {
+            return $taskTable->updateTask($model);
+        } else {
+            return $taskTable->addTask($model);
+        }
     }
 }

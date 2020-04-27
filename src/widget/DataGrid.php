@@ -52,7 +52,7 @@ class DataGrid extends Widget
         echo '<tr>';
 
         foreach ($this->columns as $key => $column) {
-            echo '<th>', $column['label'], '</th>';
+            echo '<th>', htmlspecialchars($column['label']), '</th>';
         }
 
         if (!empty($this->actions)) {
@@ -67,7 +67,7 @@ class DataGrid extends Widget
         echo '<tr>';
 
         foreach ($this->columns as $key => $column) {
-            echo '<td>', $data[$key], '</td>';
+            echo '<td>', htmlspecialchars($data[$key]), '</td>';
         }
 
         if (!empty($this->actions)) {
