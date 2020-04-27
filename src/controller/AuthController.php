@@ -9,6 +9,7 @@ use auth\User;
 use Controller;
 use DB;
 use helper\CsrfHelper;
+use helper\FlashHelper;
 use helper\SessionHelper;
 use model\LoginForm;
 
@@ -23,10 +24,11 @@ class AuthController extends Controller
     {
         $model = new LoginForm($data);
 
-        if ($model->isValid()) {
+        if ($model->isValid() && 'post' === Application::$router->getMethod()) {
             $result = DB::queryOneRow('select * from user where name = %s and password = %s', $model->username, sha1($model->password));
 
             if (empty($result)) {
+                FlashHelper::add('Incorrect username or password', FlashHelper::ERROR_TYPE);
                 $this->redirect('/auth');
             }
 

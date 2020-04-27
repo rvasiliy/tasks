@@ -11,12 +11,12 @@ use helper\CsrfHelper;
         <form class="card-body" action="/auth/login" method="post">
             <?php CsrfHelper::createFormField(); ?>
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Username *</span></label>
                 <input class="form-control" type="text" id="username" name="username">
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Password *</label>
                 <input class="form-control" type="password" id="password" name="password">
             </div>
 

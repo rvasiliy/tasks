@@ -8,7 +8,7 @@ class Model
     /**
      * @var string
      */
-    protected $csrfToken;
+    protected $csrfToken = '';
 
     protected $validators = [];
 
