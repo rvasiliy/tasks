@@ -2,7 +2,6 @@
 
 
 use auth\User;
-use helper\CsrfHelper;
 use helper\SessionHelper;
 
 class Application
@@ -25,7 +24,6 @@ class Application
     public function run(array $config = [])
     {
         SessionHelper::start();
-        CsrfHelper::generateToken();
 
         self::$config = new Config($config);
         self::$router = new Router();

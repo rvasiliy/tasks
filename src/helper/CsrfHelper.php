@@ -10,7 +10,7 @@ class CsrfHelper
 
     public static function createFormField()
     {
-        $token = SessionHelper::get(CsrfHelper::TOKEN_KEY);
+        $token = self::createToken();
 
         echo '<input type="hidden" name="' . CsrfHelper::TOKEN_KEY . '" value="' . $token . '">';
     }
@@ -24,11 +24,15 @@ class CsrfHelper
         return $token === $tokenFromSession;
     }
 
-    public static function generateToken(): void
+    private static function createToken(): string
     {
-        if (!SessionHelper::get(self::TOKEN_KEY)) {
+        $token = SessionHelper::get(self::TOKEN_KEY);
+
+        if (!$token) {
             $token = bin2hex(openssl_random_pseudo_bytes(24));
             SessionHelper::set(self::TOKEN_KEY, $token);
         }
+
+        return $token;
     }
 }
