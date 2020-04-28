@@ -5,11 +5,13 @@
 * Веб-сервер - Apache;
 * PHP 7.1 и выше;
 * MySql 5.6;
-* Composer.
+* Composer;
+* Node.js 10 и выше.
 
 ## Установка
 
 1. Установите зависимости используя composer `composer install`;
+1. Установите javascript и css зависимости выполнив последовательно команды `npm install` и `npm run build`;
 1. Скопируйте каталоги _public, src, vendor_ в каталог на веб-сервере;
 1. Настройте каталог _public_ как **DOCUMENT_ROOT** для вашего домена.
 
