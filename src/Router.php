@@ -58,6 +58,15 @@ class Router
         return $this->params;
     }
 
+    public function getParam(string $name): ?string
+    {
+        if (array_key_exists($name, $this->params)) {
+            return $this->params[$name];
+        }
+
+        return null;
+    }
+
     private function prepare()
     {
         $url = $_SERVER['REQUEST_URI'];

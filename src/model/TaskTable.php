@@ -5,25 +5,31 @@ namespace model;
 
 
 use DB;
+use Paginator;
 
 class TaskTable
 {
-    public function getList(int $page = 1, int $perPage = 3): array
+    /**
+     * @param int $page
+     * @return array ['data' => [], 'total' => 5, 'page' => 1, 'perPage' => 3, 'pages' => 2]
+     */
+    public function getList(int $page = 1): array
     {
-        DB::query("select count(id) from task");
-        $pages = ceil(DB::count() / $perPage);
+        $total = intval(DB::queryFirstField("select count(id) from task"));
+        $paginator = new Paginator($page, 3, $total);
 
-        if ($page < 1) {
-            $page = 1;
-        }
+        $page = $paginator->getPage();
+        $perPage = $paginator->getPerPage();
+        $pages = $paginator->getPages();
+        $offset = $paginator->getOffset();
 
-        if ($pages < $page) {
-            $page = $pages;
-        }
-
-        $offset = ($page - 1) * $perPage;
-
-        return DB::query("select * from task limit %d offset %d", $perPage, $offset);
+        return [
+            'data' => DB::query("select * from task limit %d offset %d", $perPage, $offset),
+            'total' => $total,
+            'page' => $page,
+            'perPage' => $perPage,
+            'pages' => $pages
+        ];
     }
 
     public function find(int $id): array

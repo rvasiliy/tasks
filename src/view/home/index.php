@@ -3,15 +3,15 @@
 use widget\DataGrid;
 use widget\DoneAction;
 use widget\EditAction;
+use widget\Pager;
+
 ?>
 
 <div class="mb-2">
     <a class="btn btn-primary" href="/task/add">Add task</a>
 </div>
 
-<?php
-
-(new DataGrid([
+<?php (new DataGrid([
     'data' => $data,
     'columns' => [
         'author' => [
@@ -52,4 +52,10 @@ use widget\EditAction;
             }
         ],
     ],
-]))->render();
+]))->render(); ?>
+
+<div class="d-flex">
+    <div class="ml-auto">
+        <?php (new Pager($pagination))->render(); ?>
+    </div>
+</div>
