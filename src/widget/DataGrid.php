@@ -4,6 +4,7 @@
 namespace widget;
 
 
+use Sort;
 use Widget;
 
 class DataGrid extends Widget
@@ -52,7 +53,15 @@ class DataGrid extends Widget
         echo '<tr>';
 
         foreach ($this->columns as $key => $column) {
-            echo '<th>', htmlspecialchars($column['label']), '</th>';
+            echo '<th>';
+
+            if (array_key_exists('sort', $column)) {
+                echo $this->createSortLink($column['label'], $key, $column['sort']);
+            } else {
+                echo htmlspecialchars($column['label']);
+            }
+
+            echo '</th>';
         }
 
         if (!empty($this->actions)) {
@@ -97,5 +106,40 @@ class DataGrid extends Widget
         }
 
         echo '<tr>';
+    }
+
+    private function createSortLink(string $label, string $name, Sort $sort): string {
+        $currentSort = $sort->getParams();
+
+        $icon = '';
+        $sort = 'asc';
+
+        if ($currentSort['by'] === $name) {
+            if ('asc' === $currentSort['sort']) $icon = 'images/sort-down.svg';
+            if ('desc' === $currentSort['sort']) $icon = 'images/sort-up.svg';
+
+            if ('asc' === $currentSort['sort']) $sort = 'desc';
+        }
+
+        $queryString = '?' . http_build_query(
+                array_merge(
+                    $_GET,
+                    [
+                        'sort' => $sort,
+                        'by' => $name
+                    ]
+                )
+            );
+
+        $html = '<div class="d-flex align-content-center">';
+        $html .= '<a class="mr-2" href="' . $queryString . '">' . htmlspecialchars($label) . '</a>';
+
+        if ($icon) {
+            $html .= '<img src="' . $icon . '" width="20">';
+        }
+
+        $html .= '</div>';
+
+        return $html;
     }
 }

@@ -8,6 +8,7 @@ use Application;
 use Controller;
 use Kilte\Pagination\Pagination;
 use model\TaskTable;
+use Sort;
 use View;
 
 class HomeController extends Controller
@@ -30,7 +31,8 @@ class HomeController extends Controller
         return $this->render('home/index', [
             'data' => $query['data'],
             'isAdmin' => Application::$user && Application::$user->isAdmin(),
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'sort' => new Sort()
         ]);
     }
 }

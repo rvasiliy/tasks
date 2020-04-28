@@ -15,16 +15,19 @@ use widget\Pager;
     'data' => $data,
     'columns' => [
         'author' => [
-            'label' => 'Username'
+            'label' => 'Username',
+            'sort' => $sort,
         ],
         'author_email' => [
-            'label' => 'Email'
+            'label' => 'Email',
+            'sort' => $sort,
         ],
         'description' => [
             'label' => 'Description'
         ],
         'status' => [
             'label' => 'Status',
+            'sort' => $sort,
             'value' => function($data) {
                 $changes = [$data['status']];
 

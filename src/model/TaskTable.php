@@ -6,6 +6,7 @@ namespace model;
 
 use DB;
 use Paginator;
+use Sort;
 
 class TaskTable
 {
@@ -23,8 +24,14 @@ class TaskTable
         $pages = $paginator->getPages();
         $offset = $paginator->getOffset();
 
+        $sort = new Sort();
+        $sortDirection = $sort->getDirection() ? $sort->getDirection() : 'asc';
+        $sortBy = $sort->getBy() ? $sort->getBy() : 'id';
+
+        $sql = "select * from task order by %b {$sortDirection} limit %d offset %d";
+
         return [
-            'data' => DB::query("select * from task limit %d offset %d", $perPage, $offset),
+            'data' => DB::query($sql, $sortBy, $perPage, $offset),
             'total' => $total,
             'page' => $page,
             'perPage' => $perPage,
