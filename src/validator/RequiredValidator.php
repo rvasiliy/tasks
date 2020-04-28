@@ -12,4 +12,9 @@ class RequiredValidator extends Validator
     {
         return isset($value) && $value !== '';
     }
+
+    public static function getErrorMessage(): string
+    {
+        return 'Required';
+    }
 }

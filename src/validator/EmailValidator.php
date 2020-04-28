@@ -12,4 +12,9 @@ class EmailValidator extends Validator
     {
         return boolval(filter_var($value, FILTER_VALIDATE_EMAIL));
     }
+
+    public static function getErrorMessage(): string
+    {
+        return 'Incorrect email';
+    }
 }

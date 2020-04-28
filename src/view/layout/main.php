@@ -16,7 +16,7 @@
         <a href="/" class="navbar-brand">Tasks</a>
         <div class="ml-auto">
             <?php if (!Application::$user): ?>
-                <a href="/auth" class="btn btn-primary ">Sign in</a>
+                <a href="/auth/login" class="btn btn-primary ">Sign in</a>
             <?php else: ?>
                 <form action="/auth/logout" method="post">
                     <?php helper\CsrfHelper::createFormField(); ?>

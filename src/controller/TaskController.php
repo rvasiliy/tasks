@@ -26,13 +26,12 @@ class TaskController extends Controller
                     FlashHelper::add('Error in saving process', FlashHelper::ERROR_TYPE);
                 }
 
-            } else {
-                FlashHelper::add('Form data is invalid', FlashHelper::WARNING_TYPE);
             }
         }
 
         return $this->render('task/add', [
-            'model' => $model
+            'model' => $model,
+            'errors' => $model->getErrors()
         ]);
     }
 
@@ -62,13 +61,12 @@ class TaskController extends Controller
                     FlashHelper::add('Error in saving process', FlashHelper::ERROR_TYPE);
                 }
 
-            } else {
-                FlashHelper::add('Form data is invalid', FlashHelper::WARNING_TYPE);
             }
         }
 
         return $this->render('task/edit', [
-            'model' => $model
+            'model' => $model,
+            'errors' => $model->getErrors()
         ]);
     }
 

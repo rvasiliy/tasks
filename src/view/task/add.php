@@ -5,17 +5,30 @@
 
     <div class="form-group">
         <label for="name">Your name *</label>
-        <input class="form-control" id="name" name="name" type="text" value="<?= $model->name; ?>">
+        <input class="form-control <?= $errors['name'] ? 'is-invalid' : '' ?>"
+               id="name"
+               name="name"
+               type="text"
+               value="<?= $model->name; ?>">
+        <div class="invalid-feedback"><?= htmlspecialchars($errors['name']) ?></div>
     </div>
 
     <div class="form-group">
         <label for="email">Your email *</label>
-        <input class="form-control" id="email" name="email" type="email" value="<?= $model->email; ?>">
+        <input class="form-control <?= $errors['email'] ? 'is-invalid' : '' ?>"
+               id="email"
+               name="email"
+               type="email"
+               value="<?= $model->email; ?>">
+        <div class="invalid-feedback"><?= htmlspecialchars($errors['email']) ?></div>
     </div>
 
     <div class="form-group">
         <label for="description">Description *</label>
-        <textarea class="form-control" id="description" name="description"><?= $model->description; ?></textarea>
+        <textarea class="form-control <?= $errors['description'] ? 'is-invalid' : '' ?>"
+                  id="description"
+                  name="description"><?= $model->description; ?></textarea>
+        <div class="invalid-feedback"><?= htmlspecialchars($errors['description']) ?></div>
     </div>
 
     <div class="form-group d-flex">

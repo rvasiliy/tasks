@@ -7,4 +7,9 @@ class Validator
     {
         return static::check($value);
     }
+
+    public static function getErrorMessage(): string
+    {
+        return static::getMessage();
+    }
 }

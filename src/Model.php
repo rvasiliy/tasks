@@ -2,6 +2,7 @@
 
 
 use helper\CsrfHelper;
+use helper\FlashHelper;
 
 class Model
 {
@@ -11,6 +12,8 @@ class Model
     protected $csrfToken = '';
 
     protected $validators = [];
+
+    protected $errors = [];
 
     public function __construct(array $data = [])
     {
@@ -30,15 +33,21 @@ class Model
     public function isValid(): bool
     {
         if (!CsrfHelper::validateToken($this->csrfToken)) {
+            FlashHelper::add('Invalid csrf token', FlashHelper::ERROR_TYPE);
             return false;
         }
 
         foreach ($this->validators as $property => $validator) {
             if (!$validator::check($this->$property)) {
-                return false;
+                $this->errors[$property] = $validator::getErrorMessage();
             }
         }
 
-        return true;
+        return empty($this->errors);
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }
