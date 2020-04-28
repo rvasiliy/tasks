@@ -51,10 +51,10 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(array $data)
     {
         if ('post' === Application::$router->getMethod()) {
-            $token = SessionHelper::get(CsrfHelper::TOKEN_KEY);
+            $token = Application::$router->getParam(CsrfHelper::TOKEN_KEY);
 
             if (CsrfHelper::validateToken($token)) {
                 SessionHelper::delete('user');

@@ -24,7 +24,7 @@ class Paginator
             $page = 1;
         }
 
-        if ($pages < $page) {
+        if (0 < $pages && $pages < $page) {
             $page = $pages;
         }
 
