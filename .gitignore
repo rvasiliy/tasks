@@ -4,3 +4,4 @@
 
 /public/vendor/
 /src/config/db.php
+/src/config/params.php

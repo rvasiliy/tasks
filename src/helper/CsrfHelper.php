@@ -4,6 +4,8 @@
 namespace helper;
 
 
+use Application;
+
 class CsrfHelper
 {
     const TOKEN_KEY = 'csrfToken';
@@ -17,22 +19,19 @@ class CsrfHelper
 
     public static function validateToken(string $token): bool
     {
-        $tokenFromSession = SessionHelper::get(self::TOKEN_KEY);
+        $saltPosition = strrpos($token, ':');
+        $salt = substr($token, $saltPosition + 1);
+        $hash = substr($token, 0, strlen($token) - strlen($salt) - 1);
+        $secret = Application::$config->get('secret');
 
-        SessionHelper::delete(self::TOKEN_KEY);
-
-        return $token === $tokenFromSession;
+        return sha1($salt . $secret) === $hash;
     }
 
     private static function createToken(): string
     {
-        $token = SessionHelper::get(self::TOKEN_KEY);
+        $salt = bin2hex(openssl_random_pseudo_bytes(32));
+        $secret = Application::$config->get('secret');
 
-        if (!$token) {
-            $token = bin2hex(openssl_random_pseudo_bytes(24));
-            SessionHelper::set(self::TOKEN_KEY, $token);
-        }
-
-        return $token;
+        return sha1($salt . $secret) . ':' . $salt;
     }
 }
