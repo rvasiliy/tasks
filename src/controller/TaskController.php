@@ -85,7 +85,14 @@ class TaskController extends Controller
 
             if ($taskTable->setDone($taskId)) {
                 FlashHelper::add('Task done', FlashHelper::WARNING_TYPE);
-                $this->redirect('/');
+
+                $url = '/';
+
+                if (array_key_exists('HTTP_REFERER', $_SERVER)) {
+                    $url = $_SERVER['HTTP_REFERER'];
+                }
+
+                $this->redirect($url);
             } else {
                 FlashHelper::add('Unknown error', FlashHelper::WARNING_TYPE);
             }
