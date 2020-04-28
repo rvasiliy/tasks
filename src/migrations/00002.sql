@@ -1,5 +1,5 @@
-create table task (
-    `id` integer primary key auto_increment not null,
+create table `task` (
+    `id` int(11) primary key auto_increment not null,
     `create_at` timestamp default current_timestamp() not null,
     `update_at` timestamp default current_timestamp() not null,
     `description` longtext not null,
