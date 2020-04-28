@@ -114,7 +114,7 @@ class TaskController extends Controller
 
         if (is_null($user) || !$user->isAdmin()) {
             FlashHelper::add('Permission denied', FlashHelper::WARNING_TYPE);
-            $this->redirect('/');
+            $this->redirect('/auth/login');
         }
     }
 }
